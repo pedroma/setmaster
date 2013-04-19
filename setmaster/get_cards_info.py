@@ -33,7 +33,7 @@ for card in cards:
                 i = Image.open(StringIO(req.content))
                 if not os.path.exists(expansion_dir):
                     os.mkdir(expansion_dir)
-                i.save(u"{0}/{1}.png".format(expansion_dir, card["front"]["multiverse_id"]), "PNG")
+                i.save(u"{0}/{1}.jpg".format(expansion_dir, card["front"]["multiverse_id"]), "JPEG", quality=80, optimize=True, progressive=True)
             except:
                 # this might be because the card image does not exist:
                 # example: ERROR http://magiccards.info/scans/en/ug/92.jpg Goblin token card 92
