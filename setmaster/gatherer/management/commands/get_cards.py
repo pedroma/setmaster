@@ -118,7 +118,7 @@ class Command(BaseCommand):
                     url = "http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=%s"%id
                     r = requests.get(url)
                 soup = BeautifulSoup(r.content)
-                if soup.find("div",{'id':"ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl05_componentWrapper"}) is None or soup.find("div",{'id':"ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl07_componentWrapper"}):
+                if soup.find("div",{'id':"ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl05_componentWrapper"}) is None and soup.find("div",{'id':"ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl07_componentWrapper"}) is None:
                     # This is a simple card. No flipping and no transformations
                     try:
                         txt = soup.find('div',{'id':'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_textRow'}).findAll('div',{'class':'cardtextbox'})
@@ -191,9 +191,9 @@ class Command(BaseCommand):
                     # "ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl05_artistRow"
                     # "ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl06_artistRow"
                     sub_card,created = SubCard.objects.get_or_create(card=card_obj)
-                    txt = soup.find('div',{'id':'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl06_nameRow'}).find('div',{'class':'value'}).text
+                    txt = soup.findAll('div',{'id':lambda x: x and x.endswith('nameRow')})[0].find('div',{'class':'value'}).text
                     sub_card.title = txt
-                    type = soup.find('div',{'id':'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl06_typeRow'}).find('div',{'class':'value'}).text
+                    type = soup.findAll('div',{'id':lambda x: x and x.endswith('nameRow')})[1].find('div',{'class':'value'}).text
                     sub_card.type = txt
                     try:
                         txt = soup.find('div',{'id':'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl05_textRow'}).findAll('div',{'class':'value'}).text
@@ -237,7 +237,7 @@ class Command(BaseCommand):
                         # http://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=3134
                         pass
                     try:
-                        rarity = soup.find('div',{'id':'ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl05_rarityRow'}).find('div',{'class':'value'}).text
+                        rarity = soup.findAll('div',{'id': lambda x: x and x.endswith('rarityRow')})[0].find('div',{'class':'value'}).text
                         card_obj.rarity = rarity
                     except:
                         self.stdout.write("Problem getting the rarity of %s\n"%url)

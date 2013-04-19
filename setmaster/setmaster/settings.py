@@ -60,7 +60,7 @@ MEDIA_URL = '/static/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/home/pma/workspace/setmaster/static'
+STATIC_ROOT = '/home/pma/workspace/setmaster/setmaster/static/'
 MEDIA_ROOT = STATIC_ROOT + "media/"
 
 # URL prefix for static files.
@@ -124,6 +124,9 @@ INSTALLED_APPS = (
     'south',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'rest_framework',
+    'api',
+    'frontend',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

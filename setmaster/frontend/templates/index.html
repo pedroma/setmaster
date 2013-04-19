@@ -1,0 +1,36 @@
+<!doctype html>
+<html ng-app="Cards">
+<head>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
+</head>
+<body>
+    <div ng-controller="CardCtrl">
+        <input ng-model="search" ng-change="doSearch()"/>
+        <table class="table striped">
+            <tr ng-repeat="card in cards.results">
+                <td>
+                    <img ng-src="{% templatetag openvariable %}card.image{% templatetag closevariable %}" width="170px"/>
+                </td>
+                <td>
+                    {% verbatim %}
+                        {{ card.multiverse_id }}
+                    {% endverbatim %}
+                </td>
+                <td>
+                    {% verbatim %}
+                        {{ card.name }}
+                    {% endverbatim %}
+                </td>
+                <td>
+                    {% verbatim %}
+                        {{ card.set }}
+                    {% endverbatim %}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/angular.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/angular-resource.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/cards.js"></script>
+</body>
+</html>

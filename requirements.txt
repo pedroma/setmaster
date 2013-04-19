@@ -4,3 +4,5 @@ south
 BeautifulSoup
 requests
 Pillow
+pymongo
+djangorestframework
