@@ -1,4 +1,3 @@
 *pyc
-api/static_media/
-static_media/
-api/static/images/
+setmaster/static_media/
+setmaster/api/static/images/

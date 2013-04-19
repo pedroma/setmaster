@@ -14,5 +14,5 @@ expansions_magicinfo = soup_magicinfo.find("select", {"id": "edition"}).findAll(
 for expansion in expansions_magicinfo:
     exp_name = expansion.text
     exp_id = expansion.get("value").split("/")[0]
-
-    mongo.sets.insert({"gatherer": exp_name, "mtgcardsinfo": exp_id})
+    if '/' not in exp_name and exp_name != "" and exp_id != "":
+        mongo.sets.insert({"gatherer": exp_name, "mtgcardsinfo": exp_id})
