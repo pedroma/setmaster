@@ -11,10 +11,10 @@ def cards_list(request, query=None):
     if query is not None:
         cards = mongo.cards.find({"front.name": re.compile(r"{0}".format(query), re.IGNORECASE)})
         if len(query) < 5:
-            cards.limit(20)
+            cards.limit(100)
     else:
         cards = mongo.cards.find()
-    cards.limit(20)
+        cards.limit(100)
     cardlist = []
     for card in cards:
         directory_prefix = "/home/pma/workspace/setmaster/setmaster/api"
@@ -27,7 +27,6 @@ def cards_list(request, query=None):
         else:
             multiverse_id = card["front"]["multiverse_id"]
         image_url = "/static/images/{0}/{1}.png".format(set, multiverse_id)
-        print directory_prefix+image_url
         if os.path.exists(directory_prefix+image_url):
             cardlist.append({
                 "name": card["front"]["name"],
