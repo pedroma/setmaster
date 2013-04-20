@@ -91,6 +91,8 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
+AUTH_USER_MODEL = 'core.SystemUser'
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -122,13 +124,19 @@ INSTALLED_APPS = (
     'south',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'core',
     'rest_framework',
     'registration',
     'api',
     'frontend',
+    'smregistration',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_OPEN = True
+LOGIN_REDIRECT_URL = "/"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -158,6 +166,12 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'pedromcaraujo@gmail.com'
+EMAIL_HOST_PASSWORD = 'sgfjehiocxzjcurl'
+EMAIL_PORT = 587
 
 try:
     from local_settings import *

@@ -2,4 +2,7 @@
 from django.shortcuts import render
 
 def home(request):
-    return render(request, "index.html")
+    if request.user.is_authenticated():
+        return render(request, "index_auth.html")
+    else:
+        return render(request, "index_anon.html")

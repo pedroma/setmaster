@@ -18,3 +18,6 @@ for expansion in expansions_magicinfo:
     exp_id = expansion.get("value").split("/")[0]
     if '/' not in exp_name and exp_name != "" and exp_id != "":
         mongo.sets.insert({"gatherer": exp_name, "mtgcardsinfo": exp_id})
+
+# Manual steps
+mongo.sets.insert({"gatherer": "Magic: The Gathering-Commander", "mtgcardsinfo": "cmd"})
