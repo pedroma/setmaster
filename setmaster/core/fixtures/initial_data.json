@@ -14,5 +14,23 @@
        "domain": "mage.peddan.com",
        "name": "Develop"
      }
+  },
+  {
+    "pk": 1, 
+    "model": "core.systemuser", 
+    "fields": {
+        "username": "pma", 
+        "first_name": "Pedro", 
+        "last_name": "Araújo", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2013-04-20T21:05:34Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$GIdjRHpx3e3D$6YOF+ch9Y+yntMAvIuEQlpo+8jsZP300epTUbsoSSng=", 
+        "email": "pedromcaraujo@gmail.com", 
+        "date_joined": "2013-04-20T20:43:58Z"
+    }
   }
 ]
