@@ -1,30 +1,26 @@
 {% extends "base.html" %}
-{%block content %}
-<div ng-app="Cards">
-    <div ng-controller="CardCtrl">
-        <input ng-model="search" ng-change="doSearch()"/>
-        <table class="table striped">
-            <tr ng-repeat="card in cards.results">
-                <td>
-                    <img ng-src="{% templatetag openvariable %}card.image{% templatetag closevariable %}" width="170px"/>
-                </td>
-                <td>
+{% load i18n %}
+{% block content %}
+<div class="row-fluid">
+    <div class="span2">
+        <h6>{% trans "My collections" %}</h6>
+        <div ng-controller="CatalogCtrl">
+            <ul>
+                <li ng-repeat="catalog in catalogs.catalogs">
                     {% verbatim %}
-                        {{ card.multiverse_id }}
+                        {{ catalog.name }} ({{ catalog.items }})
                     {% endverbatim %}
-                </td>
-                <td>
-                    {% verbatim %}
-                        {{ card.name }}
-                    {% endverbatim %}
-                </td>
-                <td>
-                    {% verbatim %}
-                        {{ card.set }}
-                    {% endverbatim %}
-                </td>
-            </tr>
-        </table>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="span10" ng-app="Cards">
+        <div ng-controller="CardCtrl">
+            <input ng-model="search" ng-change="doSearch()"/>
+            <div class ng-repeat="card in cards.results">
+                <img ng-src="{% templatetag openvariable %}card.image{% templatetag closevariable %}" width="200px" class="pull-left"/>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

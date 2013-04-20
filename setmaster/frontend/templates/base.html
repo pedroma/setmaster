@@ -1,13 +1,29 @@
 <!doctype html>
 <html ng-app="Cards">
 <head>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
-    <script type="text/javascript" src="{{ STATIC_URL }}js/angular.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/angular-resource.js"></script>
+    <title>SetMaster</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/bootstrap.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+    <script type="text/javascript" src="{{ STATIC_URL }}js/vendor/angular.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/vendor/angular-resource.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/cards.js"></script>
 </head>
 <body>
-    {% block content %}
-    {% endblock content %}
+    <div class="navbar">
+      <div class="navbar-inner">
+        <a class="brand" href="/">SetMaster</a>
+        <ul class="nav">
+          <li><a href="/">Home</a></li>
+        </ul>
+        <ul class="nav pull-right">
+          <li><a href="/accounts/profile"><i class="icon-user"></i>Profile</a></li>
+          <li><a href="/accounts/logout"><i class="icon-arrow-right"></i>Logout</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+        {% block content %}
+        {% endblock content %}
+    </div>
 </body>
 </html>

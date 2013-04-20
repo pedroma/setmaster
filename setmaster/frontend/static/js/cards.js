@@ -8,3 +8,8 @@ function CardCtrl($scope, $resource) {
         $scope.cards = $scope.cards_rsc.get({query:$scope.search});
     };
 }
+
+function CatalogCtrl($scope, $resource) {
+    $scope.catalog_rsc = $resource("/api/catalogs/");
+    $scope.catalogs = $scope.catalog_rsc.get();
+}

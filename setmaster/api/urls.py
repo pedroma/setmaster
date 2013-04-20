@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^catalogs/$', views.catalog_list),
     url(r'^cards/$', views.cards_list),
     url(r'^cards/(?P<query>.*)$', views.cards_list),
 )

@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'api',
     'frontend',
     'smregistration',
+    'catalog',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
