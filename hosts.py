@@ -8,6 +8,7 @@ PLATFORM_DEFAULTS = {
     "mysql_database_name": "setmaster",
     "user": "setmaster",
     "db_pass": "root",
+    "site_id": 2,
     "db_username": "root",
     "project_name": "setmaster",
     "setmaster_repo_url": "git@github.com:pedroma/setmaster.git",
