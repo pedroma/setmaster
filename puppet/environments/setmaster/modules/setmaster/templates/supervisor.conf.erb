@@ -1,0 +1,13 @@
+[group:setmaster]
+programs=sm-gunicorn
+
+[program:sm-gunicorn]
+command=<%= sm_setmaster_venv_dir %>/bin/gunicorn -p <%= sm_setmaster_top_dir %>/gunicorn.pid -b localhost:<%= sm_gunicorn_port %> -w 2 <%= sm_project_name %>.wsgi:application<% if sm_debug == 'on' %> --debug --log-level debug<% end %>
+directory=<%= sm_setmaster_code_dir %>
+user=<%= sm_user %>
+stdout_logfile=<%= sm_log_dir %>setmaster-gunicorn.log
+stderr_logfile=<%= sm_log_dir %>setmaster-gunicorn.log
+autostart=true
+autorestart=true
+redirect_stderr=true
+environment=LANG="en_US.UTF-8"

@@ -1,0 +1,43 @@
+
+upstream setmaster {
+    server 127.0.0.1:<%= sm_gunicorn_port %>;
+}
+
+server {
+
+    listen 80;
+    server_name <%= sm_setmaster_nginx_server_name %>;
+    charset utf-8;
+    client_max_body_size    4G;
+    gzip on;
+
+    location / {
+        try_files $uri @proxy_to_app;
+    }
+
+    <% if sm_authmode == 'closed' %>
+        auth_basic              "Restricted access";
+        auth_basic_user_file    /etc/nginx/htaccess;
+    <% end %>
+
+    location @proxy_to_app {
+        set $language 'pt_PT';
+        proxy_set_header Accept-Language $language;
+        proxy_redirect      off;
+        proxy_set_header    Host                    $http_host;
+        proxy_set_header    X-Real-IP               $remote_addr;
+        proxy_set_header    X-Forwarded-For         $proxy_add_x_forwarded_for;
+        proxy_set_header    X-Forwarded-Protocol    $scheme;
+        proxy_pass          http://setmaster;
+        proxy_buffering off;
+    }
+
+    location /static/ {
+        autoindex    on;
+        alias /var/www/setmaster_static/;
+        access_log      off;
+        log_not_found   off;
+    }
+
+}
+

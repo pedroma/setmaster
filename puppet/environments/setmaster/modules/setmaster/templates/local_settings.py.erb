@@ -1,0 +1,38 @@
+
+import os
+
+<% if sm_debug == "on" %>
+DEBUG = True
+<% end %>
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_URL = "/static/"
+
+MEDIA_URL = STATIC_URL + "media/"
+
+STATIC_ROOT = "<%= sm_setmaster_static_dir %>"
+
+MEDIA_ROOT = STATIC_ROOT + "media/"
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "setmaster",
+        "USER": "root",
+        "PASSWORD": "<% if @sm_db_pass %><%= sm_db_pass %><% end %>",
+        "HOST": "localhost",
+        "PORT": "",
+    }
+}
+
+<% if sm_mode == "development" %>
+CACHE_MIDDLEWARE_SECONDS = 600
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}
+<% end %>
+

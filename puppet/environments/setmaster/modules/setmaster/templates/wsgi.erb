@@ -1,0 +1,10 @@
+
+import newrelic.agent
+newrelic.agent.initialize('<%= sm_setmaster_top_dir %>/newrelic.ini', '<%= sm_platform %>')
+
+import os, sys
+sys.path.insert(0, "<%= sm_setmaster_top_dir %>")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "setmaster.settings")
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()

@@ -1,0 +1,3 @@
+0 * * * * <%= sm_setmaster_venv_dir %>/bin/python <%= sm_setmaster_code_dir %>/manage.py update_locations
+0 9 * * * <%= sm_setmaster_venv_dir %>/bin/python <%= sm_setmaster_code_dir %>/manage.py check_age
+0 9 * * * <%= sm_setmaster_venv_dir %>/bin/python <%= sm_setmaster_code_dir %>/manage.py cleanup
