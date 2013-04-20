@@ -1,6 +1,8 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from catalog.models import Catalog
 import json
 import pymongo
 import os
@@ -9,6 +11,17 @@ import re
 mongo = pymongo.MongoClient()["magic"]
 
 
+@login_required
+def catalog_list(request):
+    catalog = Catalog.objects.filter(user=request.user)
+
+    def get_items(items):
+        return [{'quantity': i.quantity, 'identifier': i.identifier, 'name': i.name} for i in items]
+    catalogs = [{'name': cat.name, 'items': cat.items.count()} for cat in catalog]
+    return HttpResponse(json.dumps({"catalogs": catalogs}), content_type="application/json")
+
+
+@login_required
 def cards_list(request, query=None):
     if query is not None:
         cards = mongo.cards.find({"front.name": re.compile(
