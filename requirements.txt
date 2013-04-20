@@ -7,3 +7,4 @@ Pillow
 pymongo
 djangorestframework
 fabric
+django-registration

@@ -8,9 +8,11 @@ import re
 
 mongo = pymongo.MongoClient()["magic"]
 
+
 def cards_list(request, query=None):
     if query is not None:
-        cards = mongo.cards.find({"front.name": re.compile(r"{0}".format(query), re.IGNORECASE)})
+        cards = mongo.cards.find({"front.name": re.compile(
+            r"{0}".format(query), re.IGNORECASE)})
         if len(query) < 5:
             cards.limit(100)
     else:

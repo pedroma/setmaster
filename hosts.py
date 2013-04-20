@@ -19,6 +19,7 @@ PLATFORM_DEFAULTS = {
     "setmaster_nginx_server_name": "mage.peddan.com"
 }
 
+
 def _add_platform(name, mode, **kwargs):
     """
     Add a new platform, using sensible defaults

@@ -1,4 +1,5 @@
-import os, re
+import os
+import re
 import datetime
 from functools import wraps
 from contextlib import contextmanager
@@ -9,7 +10,9 @@ from fabric.colors import yellow, green, blue, red
 from fabric.tasks import Task
 from hosts import *
 
+
 class PlatformSettings(Task):
+
     def __init__(self, name, platform, *args, **kwargs):
         super(PlatformSettings, self).__init__(*args, **kwargs)
         self.name = name
@@ -23,7 +26,8 @@ class PlatformSettings(Task):
 
         for setting in settings:
             setattr(env, setting, self.platform.get(setting, None))
-            #Reset the host_config to wipe out any changes from the previous platforms
+            # Reset the host_config to wipe out any changes from the previous
+            # platforms
         env.host_config = {}
         for key, value in PLATFORMS[self.name].items():
             env.host_config[key] = value
@@ -32,9 +36,10 @@ class PlatformSettings(Task):
 for key, value in PLATFORMS.items():
     setattr(__import__(__name__), key, PlatformSettings(key, value))
 
-######################################
+#
 # Context for virtualenv and project #
-######################################
+#
+
 
 @contextmanager
 def virtualenv():
@@ -56,9 +61,9 @@ def project():
             yield
 
 
-###########################################
+#
 # Utils and wrappers for various commands #
-###########################################
+#
 
 def _print(output):
     print
@@ -205,19 +210,21 @@ def restore(filename):
     """
     return postgres("pg_restore -c -d %s %s" % (env.proj_name, filename))
 
+
 @task
 def manage(command):
     """
     Run a Django management command.
     """
     with virtualenv():
-        puts("%s/manage.py %s" % (env.host_config["setmaster_code_dir"], command))
+        puts("%s/manage.py %s" % (env.host_config[
+             "setmaster_code_dir"], command))
         return run("%s/manage.py %s" % (env.host_config["setmaster_code_dir"], command))
 
 
-#########################
+#
 # Install and configure #
-#########################
+#
 
 @task
 @log_call
@@ -261,7 +268,8 @@ def create():
             remove()
         run("virtualenv %s --distribute" % env.proj_name)
         vcs = "git" if env.repo_url.startswith("git") else "hg"
-        run("%s clone %s %s" % (vcs, env.repo_url, env.host_config["setmaster_top_dir"]))
+        run("%s clone %s %s" %
+            (vcs, env.repo_url, env.host_config["setmaster_top_dir"]))
 
     # Create DB and DB user.
     pw = db_pass()
@@ -276,7 +284,8 @@ def create():
     with settings(warn_only=True):
         # user must already exist
         psql("CREATE DATABASE %s" % env.proj_name)
-    psql("GRANT ALL PRIVILEGES ON %s.* TO '%s'@'localhost';" % (env.proj_name, env.proj_name))
+    psql("GRANT ALL PRIVILEGES ON %s.* TO '%s'@'localhost';" %
+         (env.proj_name, env.proj_name))
 
     # Set up project.
     upload_template_and_reload("settings")
@@ -320,9 +329,10 @@ def remove():
     with settings(warn_only=True):
         psql("DROP USER %s;" % env.proj_name)
 
-##############
+#
 # Deployment #
-##############
+#
+
 
 @task
 @log_call
@@ -354,7 +364,7 @@ def deploy():
             print "\nAborting!"
             return False
         create()
-    #for name in get_templates():
+    # for name in get_templates():
     #    upload_template_and_reload(name)
     with project():
         run("git pull -f")
@@ -366,9 +376,11 @@ def deploy():
     restart()
     return True
 
+
 def collect_static():
     manage("collectstatic -v 0 --noinput")
     set_static_permissions()
+
 
 def migrate():
     with project():
@@ -386,6 +398,7 @@ def all():
     if create():
         deploy()
 
+
 @task
 def push_branch(branch=None):
     if branch is None:
@@ -396,33 +409,42 @@ def push_branch(branch=None):
         run("git pull")
     restart()
 
+
 @task
 def restore_database(password=None):
     with cd(env.host_config["setmaster_top_dir"]):
         psql("DROP DATABASE %s" % env.proj_name)
         psql("CREATE DATABASE %s" % env.proj_name)
-        run("mysql -u%s -p%s %s < setmaster_dump.sql" % (env.db_username, env.db_pass, env.proj_name))
+        run("mysql -u%s -p%s %s < setmaster_dump.sql" %
+            (env.db_username, env.db_pass, env.proj_name))
+
 
 @task
 def pull_backup(password=None):
     with cd(env.host_config["setmaster_top_dir"]):
-        run("mysqldump -u%s -p%s %s > setmaster_dump.sql" % (env.db_username, env.db_pass, env.proj_name))
+        run("mysqldump -u%s -p%s %s > setmaster_dump.sql" %
+            (env.db_username, env.db_pass, env.proj_name))
         get("setmaster_dump.sql", ".")
         run("git checkout setmaster_dump.sql")
+
 
 @task
 def set_static_permissions():
     sudo("chown -R www-data:www-data /var/www")
     sudo("chmod g+rwx -R /var/www")
 
+
 @task
 def gen_bootstrap():
     with project():
         run("lessc --compress lib/bootstrap/bootstrap.less > newnet_theme/static/css/bootstrap.min.css")
 
+
 @task
 def get_statics():
-    local("rsync --progress -avzr {0}@setmaster.pt:/var/www/setmaster_static/media/ static/media/".format(env.host_config["user"]))
+    local("rsync --progress -avzr {0}@setmaster.pt:/var/www/setmaster_static/media/ static/media/".format(
+        env.host_config["user"]))
+
 
 @task
 def update_machine():
@@ -431,6 +453,7 @@ def update_machine():
     execute(push_host_config)
     execute(update_puppet_manifest)
     execute(puppet_update)
+
 
 @task
 def update_puppet_manifest():
@@ -442,13 +465,16 @@ def update_puppet_manifest():
     sudo("cd /etc/; tar zxf /tmp/nlpuppet.tgz")
     sudo("rm /tmp/nlpuppet.tgz")
 
+
 @task
 def puppet_update(debug=False):
     """ Apply a puppet manifest """
     flags = "--verbose --environment setmaster"
     if debug:
         flags += ' --debug'
-    sudo("puppet apply {flags} /etc/puppet/environments/setmaster/manifests/site.pp".format(**locals()))
+    sudo("puppet apply {flags} /etc/puppet/environments/setmaster/manifests/site.pp".format(
+        **locals()))
+
 
 @task
 def install_puppet():
@@ -464,15 +490,17 @@ def install_puppet():
     sudo("apt-get upgrade -y")
     sudo("apt-get install -y python-software-properties")
 
-    #install key for the puppetlabs repo
+    # install key for the puppetlabs repo
     sudo("gpg --homedir=/root --keyserver=keys.gnupg.net --recv-key 4BD6EC30")
     sudo("gpg --homedir=/root -a --export 4BD6EC30 > /tmp/puppet.key")
     sudo("apt-key add /tmp/puppet.key")
     sudo("rm /tmp/puppet.key")
     sources_file = "/etc/apt/sources.list.d/puppetlabs.list"
     if not exists(sources_file, use_sudo=True):
-        sudo("echo \"deb http://apt.puppetlabs.com oneiric main\" > {sources_file}".format(**locals()))
-        sudo("echo \"deb-src http://apt.puppetlabs.com oneiric main\" >> {sources_file}".format(**locals()))
+        sudo("echo \"deb http://apt.puppetlabs.com oneiric main\" > {sources_file}".format(
+            **locals()))
+        sudo("echo \"deb-src http://apt.puppetlabs.com oneiric main\" >> {sources_file}".format(
+            **locals()))
 
     with settings(warn_only=True):
         sudo("apt-get update -y")
@@ -480,6 +508,7 @@ def install_puppet():
     # the host
     sudo("apt-get install -y puppet -o DPkg::Options=\"-force-confold\"")
     sudo("apt-get upgrade -y puppet")
+
 
 @task
 def push_host_config(ofile=None):
