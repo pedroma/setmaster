@@ -1,5 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse
+from django.conf import settings
 import json
 import pymongo
 import os
@@ -17,7 +18,7 @@ def cards_list(request, query=None):
         cards.limit(100)
     cardlist = []
     for card in cards:
-        directory_prefix = "/home/pma/workspace/setmaster/setmaster/api"
+        directory_prefix = "{0}/../api".format(settings.PROJECT_ROOT)
         if card["front"].get("set") is None:
             set = card["front"]["partA"]["set"]
         else:

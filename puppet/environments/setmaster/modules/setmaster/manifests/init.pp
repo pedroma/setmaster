@@ -28,7 +28,7 @@ class setmaster {
         source => "puppet:///modules/setmaster/htaccess",
     }
 
-    file { "${sm_setmaster_code_dir}/local_settings.py":
+    file { "${sm_setmaster_code_dir}/${sm_project_name}/local_settings.py":
         content => template("setmaster/local_settings.py.erb"),
         ensure => file,
         owner => $sm_user,

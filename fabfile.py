@@ -334,7 +334,7 @@ def restart():
     if exists(pid_path):
         sudo("kill -HUP `cat %s`" % pid_path)
     else:
-        sudo("supervisorctl restart setmaster:gunicorn")
+        sudo("supervisorctl restart setmaster:*")
 
 
 @task
