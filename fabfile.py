@@ -358,7 +358,7 @@ def deploy():
     #    upload_template_and_reload(name)
     with project():
         run("git pull -f")
-        pip("-r %s/requirements/project.txt" % (env.host_config["setmaster_top_dir"]))
+        pip("-r %s/requirements.txt" % (env.host_config["setmaster_top_dir"]))
         manage("syncdb --noinput")
         migrate()
         manage("collectstatic -v 0 --noinput")

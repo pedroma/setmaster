@@ -1,3 +1,7 @@
 *pyc
 setmaster/static_media/
 setmaster/api/static/images/
+.idea/
+setmaster/cards.log
+setmaster/errors.txt
+setmaster/setmaster/local_settings.py

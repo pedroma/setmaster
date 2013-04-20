@@ -9,7 +9,6 @@ import re
 import sys
 import urllib
 #
-import tools
 
 SEARCH_URL = "http://gatherer.wizards.com/Pages/Search/Default.aspx?"\
              "page=%(page)s&set=%%5B%%22%(escaped_set_name)s%%22%%5D"\
