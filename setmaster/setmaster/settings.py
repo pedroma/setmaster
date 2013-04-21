@@ -85,6 +85,8 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '7usv(8ebg(82fl68hmr*bpufqav)*)ajq8vmcsb$taa_=phtjx'
 
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',

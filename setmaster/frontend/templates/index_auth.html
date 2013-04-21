@@ -3,12 +3,18 @@
 {% block content %}
 <div class="row-fluid">
     <div class="span2">
-        <h6>{% trans "My collections" %}</h6>
         <div ng-controller="CatalogCtrl">
+            <h6>{% trans "My collections" %}</h6>
+            <input ng-model="catalog_name"/>
+            {% csrf_token %}
+            <button class="btn" ng-click="addCatalog()">{% trans "Add" %}</button>
             <ul>
                 <li ng-repeat="catalog in catalogs.catalogs">
                     {% verbatim %}
                         {{ catalog.name }} ({{ catalog.items }})
+                        <button class="btn btn-error" ng-click="deleteCatalog(catalog.id)">
+                            <i class="icon-remove-sign"></i>
+                        </button>
                     {% endverbatim %}
                 </li>
             </ul>

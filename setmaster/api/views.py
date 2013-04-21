@@ -2,6 +2,8 @@
 from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import View
 from catalog.models import Catalog
 import json
 import pymongo
@@ -11,14 +13,31 @@ import re
 mongo = pymongo.MongoClient()["magic"]
 
 
-@login_required
-def catalog_list(request):
-    catalog = Catalog.objects.filter(user=request.user)
+class CatalogApiView(View):
 
-    def get_items(items):
-        return [{'quantity': i.quantity, 'identifier': i.identifier, 'name': i.name} for i in items]
-    catalogs = [{'name': cat.name, 'items': cat.items.count()} for cat in catalog]
-    return HttpResponse(json.dumps({"catalogs": catalogs}), content_type="application/json")
+    http_method_names = ["get", "post", "delete"]
+
+    @method_decorator(login_required)
+    def get(self, request):
+        catalog = Catalog.objects.filter(user=request.user)
+
+        def get_items(items):
+            return [{'quantity': i.quantity, 'identifier': i.identifier, 'name': i.name} for i in items]
+        catalogs = [{'id': cat.id, 'name': cat.name, 'items': cat.items.count()} for cat in catalog]
+        return HttpResponse(json.dumps({"catalogs": catalogs}), content_type="application/json")
+
+    @method_decorator(login_required)
+    def post(self, request):
+        data = json.loads(request.raw_post_data)
+        catalog = Catalog(user=request.user, name=data.get("name"))
+        catalog.save()
+        return HttpResponse(json.dumps({"success": True}), content_type="application/json")
+
+    @method_decorator(login_required)
+    def delete(self, request, id):
+        catalog = Catalog.objects.get(id=id)
+        catalog.delete()
+        return HttpResponse(json.dumps({"success": True}), content_type="application/json")
 
 
 @login_required
@@ -27,10 +46,10 @@ def cards_list(request, query=None):
         cards = mongo.cards.find({"front.name": re.compile(
             r"{0}".format(query), re.IGNORECASE)})
         if len(query) < 5:
-            cards.limit(100)
+            cards.limit(10)
     else:
         cards = mongo.cards.find()
-        cards.limit(100)
+        cards.limit(10)
     cardlist = []
     for card in cards:
         directory_prefix = "{0}/../api".format(settings.PROJECT_ROOT)
