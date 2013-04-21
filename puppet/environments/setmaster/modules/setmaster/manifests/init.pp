@@ -78,4 +78,11 @@ class setmaster {
         group => root,
         mode => 0440,
     }
+
+    file { "${sm_setmaster_static_dir}":
+       ensure => directory,
+       owner => $sm_user,
+       group => $sm_user,
+       mode => 0777,
+    }
 }

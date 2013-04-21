@@ -42,7 +42,7 @@ def cards_list(request, query=None):
             multiverse_id = card["front"]["partA"]["multiverse_id"]
         else:
             multiverse_id = card["front"]["multiverse_id"]
-        image_url = "/static/images/{0}/{1}.png".format(set, multiverse_id)
+        image_url = "/static/images/{0}/{1}.jpg".format(set, multiverse_id)
         if os.path.exists(directory_prefix+image_url):
             cardlist.append({
                 "name": card["front"]["name"],
