@@ -1,43 +1,23 @@
 {% extends "base.html" %}
 {% load i18n %}
+
+{% block navbar %}
+<div class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="/">SetMaster</a>
+    <ul class="nav">
+      <li><a href="#/">Home</a></li>
+      <li><a href="#/catalog">Catalog Manager</a></li>
+    </ul>
+    <ul class="nav pull-right">
+      <li><a href="/accounts/profile"><i class="icon-user"></i>Profile</a></li>
+      <li><a href="/accounts/logout"><i class="icon-arrow-right"></i>Logout</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
 {% block content %}
-<div class="row-fluid">
-    <div ng-controller="CatalogCtrl">
-        <div class="span2">
-            <div ng-controller="CatalogCtrl">
-                <h6>{% trans "My collections" %}</h6>
-                <input ng-model="catalog_name"/>
-                {% csrf_token %}
-                <button class="btn" ng-click="addCatalog()">{% trans "Add" %}</button>
-                <ul>
-                    {% verbatim %}
-                        <li ng-model="catalog_drop"
-                        ng-repeat="catalog in catalogs.catalogs" data-drop="true"
-                        jqyoui-droppable="{index: {{$index}}, onDrop:'dropCallback', onOver: 'overCallback', onOut: 'outCallback', helper:'clone'}">
-                            {{ catalog.name }} ({{ catalog.items }})
-                            <button ng-class="catalog.class" class="btn btn-error" ng-click="deleteCatalog(catalog.id)">
-                                <i class="icon-remove-sign"></i>
-                            </button>
-                        </li>
-                    {% endverbatim %}
-                </ul>
-            </div>
-        </div>
-        <div class="span10" ng-app="Cards">
-            <input ng-model="search" ng-change="doSearch()"/>
-            <div ng-repeat="card in cards.results">
-                {% verbatim %}
-                    <div class="pull-left">
-                        <div ng-model="cards" data-drag="true"
-                            data-jqyoui-options="{revert: 'valid'}"
-                            jqyoui-draggable="{index: {{$index}}, placeholder:true, helper:'clone'}" >
-                            <h5>{{ card.name }}</h5>
-                        </div>
-                        <img ng-src="{{card.image}}" width="200px" class="pull-left"/>
-                    </div>
-                {% endverbatim %}
-            </div>
-        </div>
-    </div>
+<div class="row-fluid" ng-view>
 </div>
 {% endblock content %}

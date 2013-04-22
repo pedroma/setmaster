@@ -1,10 +1,7 @@
-var App = angular.module("Cards", ["ngResource", 'ngDragDrop']).config(function($httpProvider) {
-    var token = $("input[name=csrfmiddlewaretoken]").val();
-    $httpProvider.defaults.headers.post["X-CSRFToken"]  = token;
-    $httpProvider.defaults.headers.common["X-CSRFToken"]  = token;
-});
+'use strict';
 
-App.controller("CatalogCtrl", function($scope, $resource, $http) {
+angular.module('setmaster')
+  .controller('CatalogCtrl', function($scope, $resource, $http) {
     $scope.catalog_drop = [{}];
     $scope.cards_rsc = $resource("/api/cards/:query");
     $scope.cards = $scope.cards_rsc.get({query:undefined});
@@ -25,7 +22,6 @@ App.controller("CatalogCtrl", function($scope, $resource, $http) {
     };
 
     $scope.deleteCatalog = function(id) {
-        console.log(id);
         var catalog = new $scope.Catalog({id:id});
         catalog.$delete({id:id}, function () {
             $scope.catalogs = $scope.Catalog.get();

@@ -20,4 +20,5 @@ urlpatterns = patterns(
     (r'^accounts/', include(
      'smregistration.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include("frontend.urls")),
 )
