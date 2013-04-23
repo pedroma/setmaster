@@ -14,8 +14,4 @@ angular.module('setmaster', ['ngResource'])
       .otherwise({
         redirectTo: '/'
       });
-  }).config(function($httpProvider) {
-    var token = $("input[name=csrfmiddlewaretoken]").val();
-    $httpProvider.defaults.headers.post["X-CSRFToken"]  = token;
-    $httpProvider.defaults.headers.common["X-CSRFToken"]  = token;
-});
+  });

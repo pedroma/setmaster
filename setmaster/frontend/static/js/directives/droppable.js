@@ -8,9 +8,7 @@ angular.module('setmaster')
           iElement.droppable({
                 hoverClass: "drop-hover",
                 tolerance: "pointer",
-                drop: function(event, ui) {
-                    var draggable = ui.draggable;
-                }
+                drop: scope.addToCatalog
           });
       }
     };

@@ -3,7 +3,6 @@
     <div ng-controller="CatalogCtrl">
         <h3>{% trans "My collections" %}</h3>
         <input ng-model="catalog_name"/>
-        {% csrf_token %}
         <button class="btn" ng-click="addCatalog()">{% trans "Add" %}</button>
         <ul>
             {% verbatim %}
@@ -21,9 +20,9 @@
     <input ng-model="search" ng-change="doSearch()"/>
     <div ng-repeat="card in cards.results">
         {% verbatim %}
-            <div class="pull-left" draggable>
+            <div class="pull-left" draggable data-multiverseid="{{card.multiverse_id}}">
                 <h5>{{ card.name }}</h5>
-                <img ng-src="{{card.image}}" width="200px" class="pull-left"/>
+                <img ng-src="{{card.image}}" width="200px" class="pull-left" zoom/>
             </div>
         {% endverbatim %}
     </div>
