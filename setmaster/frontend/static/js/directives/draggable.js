@@ -3,10 +3,14 @@
 angular.module('setmaster')
   .directive('draggable', function () {
     return {
-      template: '<div></div>',
-      restrict: 'E',
-      link: function postLink(scope, element, attrs) {
-        element.text('this is the draggable directive');
+      restrict: 'A',
+      link: function (scope, iElement, iAttrs, controller) {
+          iElement.draggable({
+              cursor: "crosshair",
+              opacity: 0.35,
+              helper: "clone",
+              revert: true
+          });
       }
     };
   });

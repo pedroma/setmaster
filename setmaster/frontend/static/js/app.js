@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('setmaster', ['ngResource', 'ngDragDrop'])
+angular.module('setmaster', ['ngResource'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

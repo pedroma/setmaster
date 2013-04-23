@@ -3,10 +3,15 @@
 angular.module('setmaster')
   .directive('droppable', function () {
     return {
-      template: '<div></div>',
-      restrict: 'E',
-      link: function postLink(scope, element, attrs) {
-        element.text('this is the droppable directive');
+      restrict: 'A',
+      link: function (scope, iElement, iAttrs, controller) {
+          iElement.droppable({
+                hoverClass: "drop-hover",
+                tolerance: "pointer",
+                drop: function(event, ui) {
+                    var draggable = ui.draggable;
+                }
+          });
       }
     };
   });

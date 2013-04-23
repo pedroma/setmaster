@@ -27,29 +27,4 @@ angular.module('setmaster')
             $scope.catalogs = $scope.Catalog.get();
         });
     };
-
-    $scope.startCallback = function(event, ui) {
-      console.log('You started draggin');
-    };
-
-    $scope.stopCallback = function(event, ui) {
-      console.log('Why did you stop draggin me?');
-    };
-
-    $scope.dragCallback = function(event, ui) {
-      console.log('hey, look I`m flying');
-    };
-
-    $scope.dropCallback = function(event, ui) {
-      console.log('hey, you dumped me :-(');
-        console.log($scope.catalog_drop);
-    };
-
-    $scope.overCallback = function(event, ui) {
-      console.log('Look, I`m over you');
-    };
-
-    $scope.outCallback = function(event, ui) {
-      console.log('I`m not, hehe');
-    };
 });
