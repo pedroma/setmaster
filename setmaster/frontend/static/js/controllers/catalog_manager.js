@@ -11,8 +11,8 @@ angular.module('setmaster')
     $scope.catalogs = catalog.get();
 
     $scope.addCatalog = function() {
-        catalog.create_catalog(
-            {name:$scope.catalog_name},
+        var options = {name:$scope.catalog_name};
+        catalog.create_catalog(options,
             function () {
                 $scope.catalogs = catalog.get();
                 $scope.catalog_name = "";
@@ -27,7 +27,13 @@ angular.module('setmaster')
     };
 
     $scope.addToCatalog = function(event, ui) {
-        var draggable = ui.draggable;
+        var options = {
+            card_id: ui.draggable.data("multiverseid"),
+            id: $(this).data("catalogid")
+        };
+        catalog.addItem(options, function() {
+            $scope.catalogs = catalog.get();
+        });
         
     }
 });

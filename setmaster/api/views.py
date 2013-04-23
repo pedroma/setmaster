@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import View
-from catalog.models import Catalog
+from catalog.models import Catalog, Item
 import json
 import pymongo
 import os
@@ -15,22 +15,39 @@ mongo = pymongo.MongoClient()["magic"]
 
 class CatalogApiView(View):
 
-    http_method_names = ["get", "post", "delete"]
+    http_method_names = ["get", "post", "delete", "create"]
 
     @method_decorator(login_required)
     def get(self, request):
         catalog = Catalog.objects.filter(user=request.user)
 
         def get_items(items):
-            return [{'quantity': i.quantity, 'identifier': i.identifier, 'name': i.name} for i in items]
-        catalogs = [{'id': cat.id, 'name': cat.name, 'items': cat.items.count()} for cat in catalog]
+            return [{'quantity': i.quantity, 'identifier': i.identifier, 'name': i.name} for i in itecat.itemsms]
+        catalogs = [
+            {'id': cat.id, 'name': cat.name, 'items': cat.items.count(),
+             'total_quantity': sum(cat.items.values_list('quantity', flat=True))} for cat in catalog
+        ]
         return HttpResponse(json.dumps({"catalogs": catalogs}), content_type="application/json")
 
     @method_decorator(login_required)
     def post(self, request):
-        data = json.loads(request.raw_post_data)
+        data = json.loads(request.body)
         catalog = Catalog(user=request.user, name=data.get("name"))
         catalog.save()
+        return HttpResponse(json.dumps({"success": True}), content_type="application/json")
+
+    @method_decorator(login_required)
+    def create(self, request, id, multiverse_id):
+        name = mongo.cards.find_one({"front.multiverse_id": int(multiverse_id)})["front"]["name"]
+        catalog = Catalog.objects.get(id=id)
+        if catalog.items.filter(identifier=multiverse_id).count() == 0:
+            item = Item(name=name, quantity=1, identifier=multiverse_id)
+            item.save()
+            catalog.items.add(item)
+        else:
+            item = catalog.items.get(identifier=multiverse_id)
+            item.quantity = item.quantity + 1
+            item.save()
         return HttpResponse(json.dumps({"success": True}), content_type="application/json")
 
     @method_decorator(login_required)

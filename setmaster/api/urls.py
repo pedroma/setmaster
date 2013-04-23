@@ -6,8 +6,9 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'^catalogs$', views.CatalogApiView.as_view()),
+    url(r'^catalogs/(?P<id>\d+)/(?P<multiverse_id>\d+)$', views.CatalogApiView.as_view()),
     url(r'^catalogs/(?P<id>\d+)$', views.CatalogApiView.as_view()),
+    url(r'^catalogs$', views.CatalogApiView.as_view()),
     url(r'^cards/$', views.cards_list),
     url(r'^cards/(?P<query>.*)$', views.cards_list),
 )

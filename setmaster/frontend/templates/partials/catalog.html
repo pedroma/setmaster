@@ -6,8 +6,8 @@
         <button class="btn" ng-click="addCatalog()">{% trans "Add" %}</button>
         <ul>
             {% verbatim %}
-                <li ng-repeat="catalog in catalogs.catalogs"  droppable>
-                    {{ catalog.name }} ({{ catalog.items }})
+                <li ng-repeat="catalog in catalogs.catalogs"  droppable data-catalogid="{{catalog.id}}">
+                    {{ catalog.name }} ({{ catalog.total_quantity }})
                     <button ng-class="catalog.class" class="btn btn-error" ng-click="deleteCatalog(catalog.id)">
                         <i class="icon-remove-sign"></i>
                     </button>

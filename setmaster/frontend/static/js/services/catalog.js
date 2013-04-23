@@ -3,7 +3,7 @@
 angular.module('setmaster')
   .factory('catalog', function ($resource) {
     
-    var catalog = $resource("/api/catalogs/:id");
+    var catalog = $resource("/api/catalogs/:id/:card_id",{},{'create': {method:"CREATE"}});
 
     return {
       get: function(id) {
@@ -16,6 +16,10 @@ angular.module('setmaster')
       delete: function(options, callback) {
         var to_delete = new catalog(options);
         to_delete.$delete(options, callback);
+      },
+      addItem: function(options, callback) {
+        var add_item = new catalog(options);
+        add_item.$create(options, callback);
       }
     };
   });
