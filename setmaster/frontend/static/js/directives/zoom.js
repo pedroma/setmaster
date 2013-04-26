@@ -5,11 +5,20 @@ angular.module('setmaster')
     return {
         restrict: 'A',
         link: function(scope, iElement, iAttrs, controller) {
-            iElement.on('hover', function() {
-                $(this).animate({width: 500});
-            });
-            iElement.on('mouseleave', function() {
-                $(this).animate({width: 200});
+            iElement.on('mouseenter', function() {
+                var position = $(this).position();
+                var $new_img = $(this).clone();
+                $new_img.css("position", "fixed");
+                $new_img.css("z-index", 99);
+                $new_img.offset(position);
+                $("body").prepend($new_img);
+                $new_img.on("mouseleave", function() {
+                    $(this).css("z-index", 1);
+                    $(this).animate({width: 200, left: position.left, top:position.top}, function() {
+                        $(this).remove();
+                    });
+                });
+                $new_img.animate({width: 350, left: position.left-100, top:position.top-20});
             });
         }
     }
