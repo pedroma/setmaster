@@ -1,12 +1,13 @@
 django==1.5.1
 mysql-python
 south
-BeautifulSoup
+beautifulsoup4
 requests
 Pillow
 pymongo
-djangorestframework
 fabric
 # got for django1.5 compatibility
 hg+https://bitbucket.org/pedromcaraujo/django-registration@157c007370f712d0fa55c8a74d0c25e58dbb72dc
-
+mongoengine
+git+git://github.com/pedroma/django-mongonaut.git@master
+joblib

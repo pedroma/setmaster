@@ -9,7 +9,7 @@ angular.module('setmaster', ['ngResource'])
       })
       .when('/catalog', {
         templateUrl: 'partials/catalog.html',
-        controller: 'CatalogCtrl'
+        controller: 'CatalogManagerCtrl'
       })
       .otherwise({
         redirectTo: '/'

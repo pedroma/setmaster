@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('setmaster')
-  .controller('CatalogCtrl', function($scope, $resource, $http, cards, catalog) {
+  .controller('CatalogManagerCtrl', function($scope, $resource, $http, cards, catalog) {
     $scope.cards = cards.get();
 
     $scope.doSearch = function() {

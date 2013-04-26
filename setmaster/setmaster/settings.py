@@ -133,6 +133,8 @@ INSTALLED_APPS = (
     'frontend',
     'smregistration',
     'catalog',
+    'cards',
+    "mongonaut",
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -180,6 +182,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'pedromcaraujo@gmail.com'
 EMAIL_HOST_PASSWORD = 'sgfjehiocxzjcurl'
 EMAIL_PORT = 587
+
+from mongoengine import connect
+connect("magic")
 
 try:
     from local_settings import *
