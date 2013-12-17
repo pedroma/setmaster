@@ -8,7 +8,7 @@ angular.module('setmaster')
             iElement.on('mouseenter', function() {
                 var position = $(this).position();
                 var $new_img = $(this).clone();
-                $new_img.css("position", "fixed");
+                $new_img.css("position", "absolute");
                 $new_img.css("z-index", 99);
                 $new_img.offset(position);
                 $("body").prepend($new_img);
