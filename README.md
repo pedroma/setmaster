@@ -1,6 +1,10 @@
 setmaster
 =========
 
+THIS IS NOT A FINISHED WORK! And I am not actively developing this. Anyone can fork it. If you have any questions regarding this you can send me an email on pedromcaraujo@gmail.com. 
+
+I use my fork of https://github.com/bransorem/Magic-Scraper in https://github.com/pedroma/Magic-Scraper to do an initial import of the card into mongo and then just use some python scripts to finish of the import.
+
 Document structure of cards::
 
 Normal card
